@@ -1,0 +1,4 @@
+aiohttp==3.11.12
+websockets==14.2
+pydantic==2.10.5
+tiktoken>=0.7.0

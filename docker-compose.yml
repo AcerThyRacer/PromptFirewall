@@ -1,0 +1,30 @@
+services:
+  proxy:
+    build: ./proxy
+    container_name: pf-proxy
+    ports:
+      - "8080:8080"   # HTTP proxy
+      - "8081:8081"   # REST API
+      - "8765:8765"   # WebSocket
+    volumes:
+      - proxy-data:/app/data
+    environment:
+      - PF_CORS_ORIGINS=http://localhost:3000,http://dashboard:3000
+      - PF_API_KEY=${PF_API_KEY:-}
+    restart: unless-stopped
+
+  dashboard:
+    build: ./dashboard
+    container_name: pf-dashboard
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://proxy:8081
+      - NEXT_PUBLIC_WS_URL=ws://proxy:8765
+    depends_on:
+      proxy:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  proxy-data:
