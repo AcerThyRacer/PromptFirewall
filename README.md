@@ -164,7 +164,7 @@ Open [http://localhost:3000](http://localhost:3000). You will see:
 graph LR
     A[Your App] -->|Request| B(PromptFirewall :8080)
     B -->|Scan & Redact| C{Security Checks}
-    C -->|Pass| D[AI Provider (OpenAI/etc)]
+    C -->|Pass| D[AI Provider]
     C -->|Fail| E[Block Request]
     D -->|Response| B
     B -->|Log| F[Dashboard :3000]
